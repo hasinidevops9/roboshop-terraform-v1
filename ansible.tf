@@ -22,8 +22,9 @@ resource "null_resource" "db" {
     }
 
     inline = [
-      "sudo dnf install ansible git -y",
-      "ansible-pull -U ${var.ansible_repo} roboshop.yml -e component_name=${each.key}"
+      "sudo dnf install python3.14-pip git -y",
+      "sudo python3.14 -m pip install ansible",
+      "ANSIBLE_PIPELINING=True ansible-pull -i localhost, -U ${var.ansible_repo} roboshop-pull.yml -e component_name=${each.key}"
     ]
   }
 }
@@ -49,8 +50,9 @@ resource "null_resource" "app" {
     }
 
     inline = [
-      "sudo dnf install ansible git -y",
-      "ansible-pull -U ${var.ansible_repo} roboshop.yml -e component_name=${each.key}"
+      "sudo dnf install python3.14-pip git -y",
+      "sudo python3.14 -m pip install ansible",
+      "ANSIBLE_PIPELINING=True ansible-pull -i localhost, -U ${var.ansible_repo} roboshop-pull.yml -e component_name=${each.key}"
     ]
   }
 }

@@ -1,16 +1,13 @@
-# Usage: make apply env=dev   |   make destroy env=prod
+.PHONY: build run docker-build clean
 
-init:
-	rm -rf .terraform *.auto.tfvars
-	terraform init -backend-config=env-$(env)/state.tfvars
-	# This only command saves a lot and lot of TF code and avoid module for a single project mono repo.
-	cp env-$(env)/*.auto.tfvars .
+build:
+	npm install && npm run build
 
-plan: init
-	terraform plan -var-file=env-$(env)/main.tfvars
+run:
+	npm run dev
 
-apply: init
-	terraform apply -auto-approve
+docker-build:
+	docker build -t roboshop-frontend .
 
-destroy: init
-	terraform destroy -auto-approve
+clean:
+	rm -rf node_modules .next
